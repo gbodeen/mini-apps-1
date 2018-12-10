@@ -8,9 +8,12 @@ body {
 }
 
 .cell {
-    margin: 0;
+    margin: 5px;
     border: 1px solid black;
     height: 100px;
     width: 100px;
     display: inline-block;
+    vertical-align: middle;
+    font: 50px arial, sans-serif;
+    line-height: 100px;
 }
