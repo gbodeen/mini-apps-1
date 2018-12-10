@@ -1,0 +1,16 @@
+body {
+    background: lightseagreen;
+    text-align: center;
+}
+
+#board {
+    margin: 100px auto;
+}
+
+.cell {
+    margin: 0;
+    border: 1px solid black;
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+}
