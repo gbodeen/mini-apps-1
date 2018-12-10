@@ -4,7 +4,12 @@ body {
 }
 
 #board {
-    margin: 100px auto;
+    margin: 50px auto;
+    margin-bottom: 20px;
+}
+
+.row {
+    margin: 3px;
 }
 
 .cell {
@@ -16,4 +21,33 @@ body {
     vertical-align: middle;
     font: 50px arial, sans-serif;
     line-height: 100px;
+}
+
+#winner-area {
+    margin: 50px;
+    height: 40px;
+    font: 25px arial, sans-serif;
+    color: blue;
+}
+
+#reset-button {
+    margin-bottom: 15px;
+    width: 100px;
+    height: 30px;
+    background: white;
+}
+
+#scorebar {
+    margin: 0 auto;
+    width: 50%;
+    font: 25px arial, sans-serif;
+    color: blue;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
 }
