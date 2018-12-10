@@ -5,36 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <script src="app.js"></script>
+    <title>Tic-Tac-Toe</title>
 </head>
 
 <body>
-    <div id="headline">The game is on.<br>It's X's turn.
-    </div>
+    <div id="headline">Tic-Tac-Toe</div>
     <div id="board">
         <div class="row" id="row1">
-            <div class="square row1 col1 diag1" id="square1"></div>
-            <div class="square row1 col2" id="square2"></div>
-            <div class="square row1 col3 diag2" id="square3"></div>
+            <div class="square row1 col1 diag1" id="square1"></div><!--
+            --><div class="square row1 col2" id="square2"></div><!--
+            --><div class="square row1 col3 diag2" id="square3"></div>
         </div>
         <div class="row" id="row2">
-            <div class="square row2 col1" id="square4"></div>
-            <div class="square row2 col2 diag1 diag2" id="square5"></div>
-            <div class="square row2 col3" id="square6"></div>
+            <div class="square row2 col1" id="square4"></div><!--
+            --><div class="square row2 col2 diag1 diag2" id="square5"></div><!--
+            --><div class="square row2 col3" id="square6"></div>
         </div>
         <div class="row" id="row3">
-            <div class="square row3 col1 diag2" id="square7"></div>
-            <div class="square row3 col2" id="square8"></div>
-            <div class="square row3 col3 diag1" id="square9"></div>
+            <div class="square row3 col1 diag2" id="square7"></div><!--
+            --><div class="square row3 col2" id="square8"></div><!--
+            --><div class="square row3 col3 diag1" id="square9"></div>
         </div>
     </div>
     <button type="button" id="reset-button">Reset Game</button>
-    <div id="player-name-area"><span class="left" id="Xname"></span><span class="right" id="Oname"></span></div>
-    <div id="scorebar"><span class="left">X: <span id="Xwins">0</span> wins</span><span class="right">O: <span id="Owins">0</span>
-            wins</span></div>
+    <div id="player-name-area"><span class="left" id="Xname">Player 1 (X)</span><span class="right" id="Oname">Player 2 (O)</span></div>
+    <div id="scorebar"><span class="left"><span id="Xwins">0</span> wins</span>
+        <span class="right"><span id="Owins">0</span> wins</span></div>
 </body>
-
-<script src="app.js"></script>
-
 </html>

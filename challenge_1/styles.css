@@ -1,6 +1,9 @@
 body {
-    background: lightseagreen;
+    background: rgb(10, 125, 120);
     text-align: center;
+    font: 30px 'Montserrat', sans-serif;
+    color: white;
+    text-shadow: 2px 2px 4px black;
 }
 
 #board {
@@ -9,40 +12,53 @@ body {
 }
 
 .row {
-    margin: 3px;
+    margin: 0px;
 }
 
 .square {
-    margin: 5px;
-    border: 1px solid black;
+    margin: 0px;
+    border: 2px solid black;
     height: 100px;
     width: 100px;
     display: inline-block;
     vertical-align: middle;
-    font: 50px arial, sans-serif;
+    font-size: 75px;
     line-height: 100px;
+    color: black;
+    text-shadow: 0 0 0;
+    background:  rgb(60, 200, 195);
+}
+
+.square:hover {
+    background:  rgb(0, 255, 229);
 }
 
 #headline {
     margin: 50px;
     height: 40px;
-    font: 25px arial, sans-serif;
-    color: blue;
 }
 
 #reset-button {
     margin-bottom: 15px;
-    width: 100px;
+    width: 150px;
     height: 30px;
-    background: white;
+    background:  rgb(150, 200, 195);
+    font: 15px 'Montserrat', sans-serif;
+    outline: none;
+}
+
+#reset-button:hover {
+    background:  rgb(115, 200, 195);
+}
+
+#reset-button:active {
+    background:  rgb(45, 200, 195);
 }
 
 #scorebar, #player-name-area {
     margin: 0 auto;
     width: 50%;
-    height: 30px;
-    font: 25px arial, sans-serif;
-    color: blue;
+    height: 40px;
 }
 
 .left {

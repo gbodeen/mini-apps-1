@@ -39,8 +39,6 @@ const gameDisplay = {
   player2: '',
 
   showPlayerNames: function () {
-    gameDisplay.player1 = prompt('Enter player 1\'s name: ');;
-    gameDisplay.player2 = prompt('Enter player 2\'s name: ');;
     document.getElementById('Xname').innerText = gameDisplay.player1;
     document.getElementById('Oname').innerText = gameDisplay.player2;
   },
@@ -51,7 +49,7 @@ const gameDisplay = {
 
   showWinner: function (xo, player) {
     if (player) {
-      document.getElementById('headline').innerText = player + ' (' + xo + ') is the winner!\n';
+      document.getElementById('headline').innerText = player + ' is the winner!\n';
       document.getElementById(xo + 'wins').innerText++;
     } else {
       document.getElementById('headline').innerText = 'X and O have tied.\n';
@@ -60,7 +58,7 @@ const gameDisplay = {
 
   updateTurn: function () {
     document.getElementById('headline').innerText = 'The game is on!\nIt\'s '
-      + (gameState.isXsTurn ? 'X' : 'O') + '\'s turn.';
+      + (gameState.isXsTurn ? gameDisplay.player1 : gameDisplay.player2) + '\'s turn.';
   },
 
   clearBoard: function () {
@@ -88,8 +86,15 @@ const userInput = {
       square.addEventListener('click', userInput.handleSquareClick);
     }
     document.getElementById('reset-button').addEventListener('click', userInput.handleReset);
+  },
+
+  initialize: function () {
+    gameDisplay.player1 = (prompt('Enter player 1\'s name: ') || 'Player 1') + ' (X)';
+    gameDisplay.player2 = (prompt('Enter player 2\'s name: ') || 'Player 2') + ' (O)';
+    gameDisplay.showPlayerNames();
+    userInput.setListeners();
+    gameDisplay.updateTurn();
   }
 }
 
-gameDisplay.showPlayerNames();
-userInput.setListeners();
+setTimeout(userInput.initialize, 100);
