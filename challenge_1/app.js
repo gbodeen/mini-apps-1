@@ -67,36 +67,29 @@ const gameDisplay = {
     for (let square of document.getElementsByClassName('square')) {
       square.innerText = '';
     }
+    gameDisplay.updateTurn();
   }
 }
 
-const handleSquareClick = (e) => {
-  if (!gameState.isGameOver && !e.target.innerText) {
-    gameState.markSquare(e);
-    gameState.checkForWinner(e);
+const userInput = {
+  handleSquareClick: function (e) {
+    if (!gameState.isGameOver && !e.target.innerText) {
+      gameState.markSquare(e);
+      gameState.checkForWinner(e);
+    }
+  },
+
+  handleReset: function () {
+    gameDisplay.clearBoard();
+  },
+
+  setListeners: function () {
+    for (let square of document.getElementsByClassName('square')) {
+      square.addEventListener('click', userInput.handleSquareClick);
+    }
+    document.getElementById('reset-button').addEventListener('click', userInput.handleReset);
   }
 }
-
-
-const handleReset = () => {
-  gameState.isGaveOver = false;
-  for (let square of document.getElementsByClassName('square')) {
-    square.innerText = '';
-  }
-  document.getElementById('winner-area').innerText = 'The game is on!\nIt\'s '
-    + (gameState.isXsTurn ? 'X' : 'O') + '\'s turn.';
-}
-
-
-
-const squares = document.getElementsByClassName('square');
-
-for (let square of squares) {
-  square.addEventListener('click', handleSquareClick);
-}
-
-document.getElementById('reset-button').addEventListener('click', gameDisplay.clearBoard);
-
-
 
 gameDisplay.showPlayerNames();
+userInput.setListeners();
