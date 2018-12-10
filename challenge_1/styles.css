@@ -37,9 +37,10 @@ body {
     background: white;
 }
 
-#scorebar {
+#scorebar, #player-name-area {
     margin: 0 auto;
     width: 50%;
+    height: 30px;
     font: 25px arial, sans-serif;
     color: blue;
 }

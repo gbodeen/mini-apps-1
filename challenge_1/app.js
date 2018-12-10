@@ -41,7 +41,6 @@ const setWinner = (outcome) => {
 
 const handleReset = () => {
   game = true;
-  player1 = true;
   for (let cell of document.getElementsByClassName('cell')) {
     cell.innerText = '';
   }
@@ -58,3 +57,12 @@ for (let cell of cells) {
 }
 
 document.getElementById('reset-button').addEventListener('click', handleReset);
+
+const setPlayerNames = () => {
+  let Xname = prompt('Enter player 1\'s name: ');;
+  let Oname = prompt('Enter player 2\'s name: ');;
+  document.getElementById('Xname').innerText = Xname;
+  document.getElementById('Oname').innerText = Oname;
+}
+
+setPlayerNames();
