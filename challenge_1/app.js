@@ -1,36 +1,47 @@
 
-let game = true;
-let player1 = true;
+const gameState = {
 
-const handleCellClick = (e) => {
-  if (!game) return;
-  if (e.target.innerText) return;
+  isGameOver: false,
+  isXsTurn: true,
+  player1: '',
+  player2: '',
 
-  e.target.innerText = player1 ? 'X' : 'O';
-  player1 = !player1;
-  document.getElementById('winner-area').innerText = 'The game is on!\nIt\'s '
-    + (player1 ? 'X' : 'O') + '\'s turn.';
+  toggleSquare: function (e) {
+    e.target.innerText = gameState.isXsTurn ? 'X' : 'O';
+    gameState.isXsTurn = !gameState.isXsTurn;
+    document.getElementById('winner-area').innerText = 'The game is on!\nIt\'s '
+      + (gameState.isXsTurn ? 'X' : 'O') + '\'s turn.';
+  },
 
-  let winLine;
-  for (let cellClass of e.target.classList) {
-    winLine = [];
-    for (let cell of document.getElementsByClassName(cellClass)) {
-      winLine.push(cell.innerText || null);
-    }
-    if (winLine.every(s => s === 'X')) {
-      setWinner('X');
-    }
-    else if (winLine.every(s => s === 'O')) {
-      setWinner('O');
-    }
-    else if (cellClass === 'cell' && winLine.every(s => s)) {
-      setWinner(null);
+  checkForWinner: function (e) {
+    let winLine;
+    for (let squareClass of e.target.classList) {
+      winLine = [];
+      for (let square of document.getElementsByClassName(squareClass)) {
+        winLine.push(square.innerText || null);
+      }
+      if (winLine.every(s => s === 'X')) {
+        setWinner('X');
+      }
+      else if (winLine.every(s => s === 'O')) {
+        setWinner('O');
+      }
+      else if (squareClass === 'square' && winLine.every(s => s)) {
+        setWinner(null);
+      }
     }
   }
 }
 
+const handleSquareClick = (e) => {
+  if (!gameState.isGameOver && !e.target.innerText) {
+    gameState.toggleSquare(e);
+    gameState.checkForWinner(e);
+  }
+}
+
 const setWinner = (outcome) => {
-  game = false;
+  gameState.isGaveOver = true;
   if (outcome) {
     document.getElementById('winner-area').innerText = outcome + ' is the winner!\n';
     document.getElementById(outcome + 'wins').innerText++;
@@ -40,20 +51,20 @@ const setWinner = (outcome) => {
 }
 
 const handleReset = () => {
-  game = true;
-  for (let cell of document.getElementsByClassName('cell')) {
-    cell.innerText = '';
+  gameState.isGaveOver = false;
+  for (let square of document.getElementsByClassName('square')) {
+    square.innerText = '';
   }
   document.getElementById('winner-area').innerText = 'The game is on!\nIt\'s '
-    + (player1 ? 'X' : 'O') + '\'s turn.';
+    + (gameState.isXsTurn ? 'X' : 'O') + '\'s turn.';
 }
 
 
 
-const cells = document.getElementsByClassName('cell');
+const squares = document.getElementsByClassName('square');
 
-for (let cell of cells) {
-  cell.addEventListener('click', handleCellClick);
+for (let square of squares) {
+  square.addEventListener('click', handleSquareClick);
 }
 
 document.getElementById('reset-button').addEventListener('click', handleReset);
@@ -63,6 +74,8 @@ const setPlayerNames = () => {
   let Oname = prompt('Enter player 2\'s name: ');;
   document.getElementById('Xname').innerText = Xname;
   document.getElementById('Oname').innerText = Oname;
+  gameState.player1 = Xname;
+  gameState.player2 = Oname;
 }
 
 setPlayerNames();

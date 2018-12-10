@@ -12,7 +12,7 @@ body {
     margin: 3px;
 }
 
-.cell {
+.square {
     margin: 5px;
     border: 1px solid black;
     height: 100px;
