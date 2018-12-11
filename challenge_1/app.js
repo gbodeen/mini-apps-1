@@ -1,37 +1,79 @@
-
 const gameState = {
 
   isGameOver: false,
   isXsTurn: true,
+  boardSize: 3,
+  isRotateOn: false,
+  turnsSoFar: 0,
 
   markSquare: function (e) {
-    gameDisplay.showMark(e);
+    if (gameState.isGameOver) return;
+
+    let row = parseInt(e.target.classList[1].slice(3));
+    let col = parseInt(e.target.classList[2].slice(3));
+    if (gameState.board[row][col]) return;
+
+    gameState.board[row][col] = (gameState.isXsTurn ? 'X' : 'O');
+    gameDisplay.showBoard(gameState.board);
     gameState.isXsTurn = !gameState.isXsTurn;
+    if (gameState.isRotateOn) {
+      gameState.board = gameState.rotateBoard(gameState.board);
+    }
     gameDisplay.updateTurn();
+    gameState.turnsSoFar++;
   },
 
-  checkForWinner: function (e) {
-    let winLine;
-    for (let squareClass of e.target.classList) {
-      winLine = [];
-      for (let square of document.getElementsByClassName(squareClass)) {
-        winLine.push(square.innerText || null);
-      }
-      if (winLine.every(mark => mark === 'X')) {
-        gameState.isGaveOver = true;
-        gameDisplay.showWinner('X', gameDisplay.player1);
-      }
-      else if (winLine.every(mark => mark === 'O')) {
-        gameState.isGaveOver = true;
-        gameDisplay.showWinner('O', gameDisplay.player2);
-      }
-      else if (squareClass === 'square' && winLine.every(mark => mark)) {
-        gameState.isGaveOver = true;
-        gameDisplay.showWinner(null);
+  rotateBoard: function (board) {
+    const newBoard = gameState.makeBoard();
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board.length; j++) {
+        newBoard[board.length - j - 1][i] = board[i][j];
       }
     }
+    return newBoard;
+  },
+
+  checkBoardForWinOrTie: function (board) {
+    let winner = null;
+    let rotatedBoard = gameState.rotateBoard(board);
+    diags = [[], []];
+
+    for (let i = 0; i < board.length; i++) {
+      winner = winner || gameState.checkLineForWinner(board[i]);
+      winner = winner || gameState.checkLineForWinner(rotatedBoard[i]);
+      diags[0][i] = board[i][i];
+      diags[1][i] = rotatedBoard[i][i];
+    }
+    winner = winner || gameState.checkLineForWinner(diags[0]);
+    winner = winner || gameState.checkLineForWinner(diags[1]);
+
+    if (winner) {
+      gameState.isGameOver = true;
+      gameDisplay.showWinner(winner);
+    } else if (gameState.turnsSoFar >= gameState.boardSize ** 2) {
+      gameState.isGameOver = true;
+      gameDisplay.showWinner(winner);
+    }
+  },
+
+  checkLineForWinner: function (line) {
+    return line.reduce((winner, square) => {
+      return winner === square ? square : null;
+    });
+  },
+
+  makeBoard: function (size = gameState.boardSize) {
+    const newBoard = [];
+    for (let i = 0; i < size; i++) {
+      newBoard.push([]);
+      for (let j = 0; j < size; j++) {
+        newBoard[i].push('');
+      }
+    }
+    return newBoard;
   }
 }
+
 
 const gameDisplay = {
 
@@ -43,12 +85,20 @@ const gameDisplay = {
     document.getElementById('Oname').innerText = gameDisplay.player2;
   },
 
-  showMark: function (e) {
-    e.target.innerText = gameState.isXsTurn ? 'X' : 'O';
+  showBoard: function (board) {
+    let i = 0;
+    for (let row of board) {
+      for (let square of row) {
+        document.getElementById('square' + i).innerText = square;
+        i++;
+      }
+    }
   },
 
-  showWinner: function (xo, player) {
-    if (player) {
+  showWinner: function (xo) {
+    if (xo === 'X') player = gameDisplay.player1;
+    if (xo === 'O') player = gameDisplay.player2;
+    if (xo) {
       document.getElementById('headline').innerText = player + ' is the winner!\n';
       document.getElementById(xo + 'wins').innerText++;
     } else {
@@ -65,15 +115,40 @@ const gameDisplay = {
     for (let square of document.getElementsByClassName('square')) {
       square.innerText = '';
     }
+    gameState.board = gameState.makeBoard();
+    gameState.isGameOver = false;
+    gameState.turnsSoFar = 0;
     gameDisplay.updateTurn();
-  }
+  },
+
+  rotateBoard: function (toggle) {
+    document.getElementById('board').classList.toggle('slowrotate');
+    document.getElementById('board').classList.toggle('clockwise');
+  },
+
+  rotateSquares: function () {
+    let squares = document.getElementsByClassName('square');
+    for (let i = 0; i < squares.length; i++) {
+      squares[i].classList.toggle('slowrotate');
+      squares[i].classList.toggle('delayrotate');
+      squares[i].classList.toggle('counterclockwise');
+    }
+  },
 }
 
 const userInput = {
   handleSquareClick: function (e) {
     if (!gameState.isGameOver && !e.target.innerText) {
       gameState.markSquare(e);
-      gameState.checkForWinner(e);
+      gameState.checkBoardForWinOrTie(gameState.board);
+      gameDisplay.rotateBoard();
+      gameDisplay.rotateSquares();
+      setTimeout(() => {
+        gameState.board = gameState.rotateBoard(gameState.board);
+        gameDisplay.showBoard(gameState.board);
+        gameDisplay.rotateBoard();
+        gameDisplay.rotateSquares();
+      }, 1000);
     }
   },
 
@@ -89,6 +164,7 @@ const userInput = {
   },
 
   initialize: function () {
+    gameState.board = gameState.makeBoard();
     gameDisplay.player1 = (prompt('Enter player 1\'s name: ') || 'Player 1') + ' (X)';
     gameDisplay.player2 = (prompt('Enter player 2\'s name: ') || 'Player 2') + ' (O)';
     gameDisplay.showPlayerNames();
@@ -97,4 +173,4 @@ const userInput = {
   }
 }
 
-setTimeout(userInput.initialize, 100);
+setTimeout(userInput.initialize, 100); // asks only after page has loaded
