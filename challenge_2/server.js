@@ -4,15 +4,11 @@ const port = process.env.PORT || 3000;
 const hostname = 'localhost';
 const csv = { data: '' };
 
-// app.use(express.static('client/app.js'));
+app.use(express.static('client'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/index.html');
 });
-
-app.get('/app.js', (req, res) => {
-    res.sendFile(__dirname + '/client/app.js');
-})
 
 app.post('/json', express.urlencoded({ extended: true }), (req, res) => {
     const json = tryParsingJSON(req.body.json);
