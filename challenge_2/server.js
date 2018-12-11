@@ -27,28 +27,33 @@ app.get('/csv', (req, res) => {
 
 app.listen(port, hostname);
 
-const tryParsingJSON = (maybeJSON = '', next) => {
+const tryParsingJSON = (maybeJSON = '') => {
     try {
         json = JSON.parse(maybeJSON);
     }
     catch (err) {
-        console.log('BROKEN JSON: ', err);
+        console.log('BROKEN JSON');
+        json = {};
     }
     return json;
 };
 
 const jsonToCSV = (json) => {
-    const keys = getAllKeys(json);
+    let keys = getAllKeys(json);
     // console.log('in jsonToCSV:  ', keys);
     const objs = getAllObjects(json);
 
     let newCSV;
     if (csv.data.length) {
-        newCSV = csv.data.split('\n');
+        let oldCSV = csv.data.split('\n');
+        let oldKeys = oldCSV[0].split(',');
+        keys = [...new Set([...oldKeys, ...keys])];
+        newCSV = [keys].concat(oldCSV.slice(1));
     } else {
         newCSV = [keys];
     }
 
+    // console.log('the keys are: ', keys);
     let row = [];
     for (let obj of objs) {
         row = [];
