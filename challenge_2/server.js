@@ -2,17 +2,28 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const hostname = 'localhost';
+const csv = { data: '' };
+
+// app.use(express.static('client/app.js'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/client/index.html');
 });
 
+app.get('/app.js', (req, res) => {
+    res.sendFile(__dirname + '/client/app.js');
+})
+
 app.post('/json', express.urlencoded({ extended: true }), (req, res) => {
     const json = tryParsingJSON(req.body.json);
     // console.log(json);
-    const csv = jsonToCSV(json);
-    res.send(csv);
+    csv.data = jsonToCSV(json);
+    res.redirect('/');
 });
+
+app.get('/csv', (req, res) => {
+    res.send(csv.data);
+})
 
 app.listen(port, hostname);
 
@@ -31,17 +42,23 @@ const jsonToCSV = (json) => {
     // console.log('in jsonToCSV:  ', keys);
     const objs = getAllObjects(json);
 
-    const csv = [keys];
+    let newCSV;
+    if (csv.data.length) {
+        newCSV = csv.data.split('\n');
+    } else {
+        newCSV = [keys];
+    }
+
     let row = [];
     for (let obj of objs) {
         row = [];
         for (let key of keys) {
             obj.hasOwnProperty(key) ? row.push(obj[key]) : row.push('');
         }
-        csv.push(row.join(','));
+        newCSV.push(row.join(','));
     }
 
-    return csv.join('<br>');
+    return newCSV.join('\n');
 }
 
 const getAllKeys = (obj, keys = []) => {
