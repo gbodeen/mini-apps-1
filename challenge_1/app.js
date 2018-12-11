@@ -33,6 +33,28 @@ const gameState = {
     return newBoard;
   },
 
+  gravitateBoard: function () {
+    const board = gameState.board;
+    for (let k = 0; k < board.length - 1; k++) { // repeat so a mark can fall from top to bottom
+      for (let i = 0; i < board.length - 1; i++) { // row
+        setTimeout(() => {
+          for (let j = 0; j < board.length; j++) { // col
+            if (board[i][j] && !board[i + 1][j]) { // if square is full and below it is empty
+              board[i + 1][j] = board[i][j];
+              board[i][j] = '';
+              gameDisplay.gravitateSquare(i, j);
+              setTimeout(() => {
+                gameDisplay.showBoard(board);
+                gameDisplay.gravitateSquare(i, j)
+              }, 149);
+            }
+          }
+        }, 150 * (i + k * board.length));
+      }
+    }
+
+  },
+
   checkBoardForWinOrTie: function (board) {
     let winner = null;
     let rotatedBoard = gameState.rotateBoard(board);
@@ -122,18 +144,23 @@ const gameDisplay = {
   },
 
   rotateBoard: function (toggle) {
-    document.getElementById('board').classList.toggle('slowrotate');
+    document.getElementById('board').classList.toggle('slowtransform');
     document.getElementById('board').classList.toggle('clockwise');
   },
 
   rotateSquares: function () {
     let squares = document.getElementsByClassName('square');
     for (let i = 0; i < squares.length; i++) {
-      squares[i].classList.toggle('slowrotate');
-      squares[i].classList.toggle('delayrotate');
+      squares[i].classList.toggle('slowtransform');
+      squares[i].classList.toggle('delaytransform');
       squares[i].classList.toggle('counterclockwise');
     }
   },
+
+  gravitateSquare: function (row, col) {
+    document.getElementById('square' + (row * gameState.boardSize + col)).classList.toggle('droplinear');
+    document.getElementById('square' + (row * gameState.boardSize + col)).classList.toggle('drop');
+  }
 }
 
 const userInput = {
@@ -149,6 +176,9 @@ const userInput = {
         gameDisplay.rotateBoard();
         gameDisplay.rotateSquares();
       }, 1000);
+      setTimeout(() => {
+        gameState.gravitateBoard();
+      }, 1010);
     }
   },
 

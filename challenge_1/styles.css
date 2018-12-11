@@ -42,12 +42,24 @@ body {
     transform: rotate(-90deg);
 }
 
-.slowrotate {
+.slowtransform {
     transition: 0.5s ease;
 }
 
-.delayrotate {
+.delaytransform {
     transition-delay: 0.5s;
+}
+
+.doubledelay {
+    transition-delay: 1.0s;
+}
+
+.drop {
+    transform: translate(0, 104px);
+}
+
+.droplinear {
+    transition: linear 0.15s;
 }
 
 #headline {
