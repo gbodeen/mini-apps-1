@@ -11,6 +11,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/json', express.urlencoded({ extended: true }), (req, res) => {
+    console.log(req.body);
     handleNewJSON(req.body.json);
     res.redirect('/');
 });
@@ -35,7 +36,7 @@ const tryParsingJSON = (maybeJSON = '') => {
         json = JSON.parse(maybeJSON);
     }
     catch (err) {
-        console.log('BROKEN JSON');
+        console.log('BROKEN JSON', maybeJSON);
         json = null;
     }
     return json;

@@ -11,7 +11,8 @@
 
 <body>
     <form action="/json" method="post">
-        <textarea name="json" rows="20" cols="100"></textarea>
+        <input type="file" id="picker">
+        <textarea name="json" id="json" rows="200" cols="20" hidden></textarea>
         <input type="submit" value="Submit">
     </form>
     <div id="csv-area"></div>
