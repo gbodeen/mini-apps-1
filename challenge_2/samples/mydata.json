@@ -1,0 +1,34 @@
+{"username": "Billy",
+  "table": "wood",
+  "children": [
+    { "username": "Foney", "table": "glass" },
+    { "username": "Bubba", "table": "none", "chair": "big!" },
+    {
+      "username": "Molly",
+      "table": "stained wood",
+      "children": [
+        {
+          "username": "Phoney",
+          "table": "invisible",
+          "children": [
+            {
+              "username": "Gulla",
+              "table": "two of em",
+              "chair": "tiny"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "alphabet": "western",
+      "length": 400,
+      "children": [
+        {
+          "buckets": 4,
+          "username": "Harold"
+        }
+      ]
+    }
+  ]
+}

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/gbodeen/hratx38-mini-apps-1#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
   }
 }

@@ -2,6 +2,10 @@ const displayCSV = (resText) => {
   document.getElementById('csv-area').innerText = resText;
 };
 
+const displayDownloadLink = () => {
+  document.getElementById('download').style.visibility = 'visible';
+}
+
 const reader = new FileReader();
 
 const handleFileSelect = (e) => {

@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const hostname = 'localhost';
 const data = { objects: [], keys: [], csv: '' };
+const mysql = require('mysql');
 
 app.use(express.static('client'));
 
@@ -70,3 +71,14 @@ const updateDataCSV = (keys, objects) => {
   }
   return body.join('\n');
 };
+
+
+const sqlOptions = {
+  user: 'root',
+  password: '',
+  database: 'csvreport'
+}
+
+const connection = mysql.createConnection(sqlOptions);
+
+connection.connect
