@@ -27,7 +27,7 @@ class App extends React.Component {
 
   nextPage() {
     this.setState({
-      page: this.state.page + 1
+      page: (this.state.page + 1) % 5
     })
   }
 
@@ -45,8 +45,10 @@ class App extends React.Component {
         return <F2 nextPage={this.nextPage} setAppState={this.setAppState} />;
       case (3):
         return <F3 nextPage={this.nextPage} setAppState={this.setAppState} />;
+      case (4):
+        return <Confirm nextPage={this.nextPage} state={this.state} />
       default:
-        return <Done />;
+        return <Home nextPage={this.nextPage} />;
     }
   }
 }
@@ -56,9 +58,27 @@ const Home = ({ nextPage }) => (
   <div><button type="button" onClick={nextPage}>Checkout</button></div>
 )
 
-const Done = () => (
-  // a Checkout button, which when clicked, takes the user to the first of several forms
-  <div>Thanks for your order!</div>
+const Confirm = ({ state, nextPage }) => (
+  // a confirmation page which summarizes the data collected in the prior three steps. 
+  // This page contains a Purchase button that completes the purchase. When the purchase 
+  // is complete, the user is returned to the homepage.
+  <div>
+    Thanks for your order!  Please confirm these details: <br />
+    Name: {state.name} <br />
+    Email: {state.email} <br />
+    Password: {state.password.split('').map(c => '•').join('')} <br />
+    Address (line 1): {state.address1} <br />
+    Address (line 2): {state.address2} <br />
+    City: {state.city} <br />
+    State: {state.state} <br />
+    ZIP code: {state.zip} <br />
+    Phone number: {state.phone} <br />
+    Credit card number: {state.cc.slice(0, -4).split('').map(c => '•').join('') + state.cc.slice(-4)} <br />
+    Expiration date: {state.expiry} <br />
+    CVV: {state.cvv} <br />
+    Billing ZIP code: {state.billzip} <br />
+    <button type="button" onClick={nextPage}>Confirm purchase</button>
+  </div>
 )
 
 class F1 extends React.Component {
@@ -109,7 +129,7 @@ class F2 extends React.Component {
       address2: '',
       city: '',
       state: '',
-      zip: null,
+      zip: '',
       phone: ''
     };
 
@@ -150,10 +170,10 @@ class F3 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cc: null,
+      cc: '',
       expiry: '',
-      cvv: null,
-      billzip: null
+      cvv: '',
+      billzip: ''
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -176,7 +196,7 @@ class F3 extends React.Component {
 
     return (
       <form>
-        Credit Card #: <input type="text" id="cc" onChange={this.handleInput} value={cc} /><br />
+        Credit card number: <input type="text" id="cc" onChange={this.handleInput} value={cc} /><br />
         Expiration date: <input type="text" id="expiry" onChange={this.handleInput} value={expiry} /><br />
         CVV: <input type="text" id="cvv" onChange={this.handleInput} value={cvv} /><br />
         Billing ZIP code: <input type="text" id="billzip" onChange={this.handleInput} value={billzip} /><br />
