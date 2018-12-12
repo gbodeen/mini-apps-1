@@ -8,7 +8,8 @@ const mysql = require('mysql');
 app.use(express.static('public'));
 
 app.post('/order', express.json(), (req, res) => {
-
+  res.sendStatus(201);
+  insertOrder(req.body);
 })
 
 app.listen(port, 'localhost');
@@ -36,15 +37,19 @@ const openDB = () => {
 openDB();
 
 const insertOrder = ({ name, email, password, address1, address2, city, state, zip, phone, cc, expiry, cvv, billzip }) => {
-  dbConnect.query(`INSERT INTO orders (name, email, password, address1, address2, city, state, 
-    zip, phone, cc, expiry, cvv, billzip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`),
+  const insertion = `INSERT INTO orders (name, email, password, address1, address2, city, state, 
+    zip, phone, cc, expiry, cvv, billzip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+  dbConnect.query(insertion,
     [name, email, password, address1, address2, city, state, zip, phone, cc, expiry, cvv, billzip],
     (err, result) => {
       if (err) {
-        console.log('DB insertion failed!');
-        throw err;
+        console.log('DB insertion failed!', err.sqlMessage);
+      } else {
+        console.log('Insertion results: ', result);
       }
     }
+  );
 }
 
 const closeDB = () => {

@@ -13,12 +13,12 @@ class App extends React.Component {
       address2: '',
       city: '',
       state: '',
-      zip: null,
+      zip: '',
       phone: '',
-      cc: null,
+      cc: '',
       expiry: '',
-      cvv: null,
-      billzip: null
+      cvv: '',
+      billzip: ''
     }
 
     this.nextPage = this.nextPage.bind(this);
@@ -58,28 +58,53 @@ const Home = ({ nextPage }) => (
   <div><button type="button" onClick={nextPage}>Checkout</button></div>
 )
 
-const Confirm = ({ state, nextPage }) => (
+class Confirm extends React.Component {
   // a confirmation page which summarizes the data collected in the prior three steps. 
   // This page contains a Purchase button that completes the purchase. When the purchase 
   // is complete, the user is returned to the homepage.
-  <div>
-    Thanks for your order!  Please confirm these details: <br />
-    Name: {state.name} <br />
-    Email: {state.email} <br />
-    Password: {state.password.split('').map(c => '•').join('')} <br />
-    Address (line 1): {state.address1} <br />
-    Address (line 2): {state.address2} <br />
-    City: {state.city} <br />
-    State: {state.state} <br />
-    ZIP code: {state.zip} <br />
-    Phone number: {state.phone} <br />
-    Credit card number: {state.cc.slice(0, -4).split('').map(c => '•').join('') + state.cc.slice(-4)} <br />
-    Expiration date: {state.expiry} <br />
-    CVV: {state.cvv} <br />
-    Billing ZIP code: {state.billzip} <br />
-    <button type="button" onClick={nextPage}>Confirm purchase</button>
-  </div>
-)
+  constructor(props) {
+    super(props);
+
+    this.submitOrder = this.submitOrder.bind(this);
+  }
+
+  submitOrder() {
+    const nextPage = this.props.nextPage;
+
+    axios.post('/order', this.props.state)
+      .then(function (response) {
+        console.log('Order POSTed successfully');
+        nextPage();
+      })
+      .catch(function (error) {
+        if (error) console.log('Error POSTing order', error);
+      });
+  }
+
+  render() {
+    const { state } = this.props;
+
+    return (
+      <div>
+        Thanks for your order!  Please confirm these details: <br />
+        Name: {state.name} <br />
+        Email: {state.email} <br />
+        Password: {state.password.split('').map(c => '•').join('')} <br />
+        Address (line 1): {state.address1} <br />
+        Address (line 2): {state.address2} <br />
+        City: {state.city} <br />
+        State: {state.state} <br />
+        ZIP code: {state.zip} <br />
+        Phone number: {state.phone} <br />
+        Credit card number: {state.cc.slice(0, -4).split('').map(c => '•').join('') + state.cc.slice(-4)} <br />
+        Expiration date: {state.expiry} <br />
+        CVV: {state.cvv} <br />
+        Billing ZIP code: {state.billzip} <br />
+        <button type="button" onClick={this.submitOrder}>Confirm purchase</button>
+      </div>
+    )
+  }
+}
 
 class F1 extends React.Component {
   // F1 collects name, email, and password for account creation.
