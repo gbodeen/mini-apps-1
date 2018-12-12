@@ -8,7 +8,17 @@ class App extends React.Component {
       page: 0,
       name: '',
       email: '',
-      password: ''
+      password: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip: null,
+      phone: '',
+      cc: null,
+      expiry: '',
+      cvv: null,
+      billzip: null
     }
 
     this.nextPage = this.nextPage.bind(this);
@@ -27,6 +37,8 @@ class App extends React.Component {
 
   render() {
     switch (this.state.page) {
+      case (0):
+        return <Home nextPage={this.nextPage} />;
       case (1):
         return <F1 nextPage={this.nextPage} setAppState={this.setAppState} />;
       case (2):
@@ -34,7 +46,7 @@ class App extends React.Component {
       case (3):
         return <F3 nextPage={this.nextPage} setAppState={this.setAppState} />;
       default:
-        return <Home nextPage={this.nextPage} />;
+        return <Done />;
     }
   }
 }
@@ -42,6 +54,11 @@ class App extends React.Component {
 const Home = ({ nextPage }) => (
   // a Checkout button, which when clicked, takes the user to the first of several forms
   <div><button type="button" onClick={nextPage}>Checkout</button></div>
+)
+
+const Done = () => (
+  // a Checkout button, which when clicked, takes the user to the first of several forms
+  <div>Thanks for your order!</div>
 )
 
 class F1 extends React.Component {
@@ -74,9 +91,9 @@ class F1 extends React.Component {
 
     return (
       <form>
-        Name: <input type="text" id="name" onChange={this.handleInput} value={name} />
-        Email: <input type="text" id="email" onChange={this.handleInput} value={email} />
-        Password: <input type="text" id="password" onChange={this.handleInput} value={password} />
+        Name: <input type="text" id="name" onChange={this.handleInput} value={name} /><br />
+        Email: <input type="text" id="email" onChange={this.handleInput} value={email} /><br />
+        Password: <input type="password" id="password" onChange={this.handleInput} value={password} /><br />
         <button type="button" id="next" onClick={this.handleNext}>Next Page</button>
       </form>
     )
@@ -87,11 +104,44 @@ class F2 extends React.Component {
   // F2 collects ship to address (line 1, line 2, city, state, zip code) and phone number.
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip: null,
+      phone: ''
+    };
+
+    this.handleInput = this.handleInput.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+  }
+
+  handleInput(e) {
+    const state = {};
+    state[e.target.id] = e.target.value;
+    this.setState(state);
+  }
+
+  handleNext() {
+    this.props.setAppState(this.state);
+    this.props.nextPage();
   }
 
   render() {
-    return <div>Work in progress. This is F2.</div>;
+    let { address1, address2, city, state, zip, phone } = this.state;
+
+    return (
+      <form>
+        Address (line 1): <input type="text" id="address1" onChange={this.handleInput} value={address1} /><br />
+        Address (line 2): <input type="text" id="address2" onChange={this.handleInput} value={address2} /><br />
+        City: <input type="text" id="city" onChange={this.handleInput} value={city} /><br />
+        State: <input type="text" id="state" onChange={this.handleInput} value={state} /><br />
+        ZIP code: <input type="text" id="zip" onChange={this.handleInput} value={zip} /><br />
+        Phone number: <input type="text" id="phone" onChange={this.handleInput} value={phone} /><br />
+        <button type="button" id="next" onClick={this.handleNext}>Next Page</button>
+      </form>
+    );
   }
 }
 
@@ -99,11 +149,40 @@ class F3 extends React.Component {
   // F3 collects credit card #, expiry date, CVV, and billing zip code.
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      cc: null,
+      expiry: '',
+      cvv: null,
+      billzip: null
+    }
+
+    this.handleInput = this.handleInput.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+  }
+
+  handleInput(e) {
+    const state = {};
+    state[e.target.id] = e.target.value;
+    this.setState(state);
+  }
+
+  handleNext() {
+    this.props.setAppState(this.state);
+    this.props.nextPage();
   }
 
   render() {
-    return <div>Work in progress. This is F3.</div>;
+    let { cc, expiry, cvv, billzip } = this.state;
+
+    return (
+      <form>
+        Credit Card #: <input type="text" id="cc" onChange={this.handleInput} value={cc} /><br />
+        Expiration date: <input type="text" id="expiry" onChange={this.handleInput} value={expiry} /><br />
+        CVV: <input type="text" id="cvv" onChange={this.handleInput} value={cvv} /><br />
+        Billing ZIP code: <input type="text" id="billzip" onChange={this.handleInput} value={billzip} /><br />
+        <button type="button" id="next" onClick={this.handleNext}>Next Page</button>
+      </form>
+    );
   }
 }
 
