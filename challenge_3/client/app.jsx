@@ -5,10 +5,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 0
+      page: 0,
+      name: '',
+      email: '',
+      password: ''
     }
 
     this.nextPage = this.nextPage.bind(this);
+    this.setAppState = this.setAppState.bind(this);
   }
 
   nextPage() {
@@ -17,14 +21,18 @@ class App extends React.Component {
     })
   }
 
+  setAppState(state) {
+    this.setState(state);
+  }
+
   render() {
     switch (this.state.page) {
       case (1):
-        return <F1 />;
+        return <F1 nextPage={this.nextPage} setAppState={this.setAppState} />;
       case (2):
-        return <F2 />;
+        return <F2 nextPage={this.nextPage} setAppState={this.setAppState} />;
       case (3):
-        return <F3 />;
+        return <F3 nextPage={this.nextPage} setAppState={this.setAppState} />;
       default:
         return <Home nextPage={this.nextPage} />;
     }
@@ -40,11 +48,38 @@ class F1 extends React.Component {
   // F1 collects name, email, and password for account creation.
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: '',
+      email: '',
+      password: ''
+    };
+
+    this.handleInput = this.handleInput.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+  }
+
+  handleInput(e) {
+    const state = {};
+    state[e.target.id] = e.target.value;
+    this.setState(state);
+  }
+
+  handleNext() {
+    this.props.setAppState(this.state);
+    this.props.nextPage();
   }
 
   render() {
-    return <div>Work in progress. This is F1.</div>;
+    let { name, email, password } = this.state;
+
+    return (
+      <form>
+        Name: <input type="text" id="name" onChange={this.handleInput} value={name} />
+        Email: <input type="text" id="email" onChange={this.handleInput} value={email} />
+        Password: <input type="text" id="password" onChange={this.handleInput} value={password} />
+        <button type="button" id="next" onClick={this.handleNext}>Next Page</button>
+      </form>
+    )
   }
 }
 
