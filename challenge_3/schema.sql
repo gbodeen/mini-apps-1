@@ -19,3 +19,4 @@ CREATE TABLE orders (
   cvv VARCHAR(4) NOT NULL,
   billzip VARCHAR(5) NOT NULL
 );
+
