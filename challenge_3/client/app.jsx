@@ -7,6 +7,14 @@ class App extends React.Component {
     this.state = {
       page: 0
     }
+
+    this.nextPage = this.nextPage.bind(this);
+  }
+
+  nextPage() {
+    this.setState({
+      page: this.state.page + 1
+    })
   }
 
   render() {
@@ -18,22 +26,15 @@ class App extends React.Component {
       case (3):
         return <F3 />;
       default:
-        return <Home />;
+        return <Home nextPage={this.nextPage} />;
     }
   }
 }
 
-class Home extends React.Component {
+const Home = ({ nextPage }) => (
   // a Checkout button, which when clicked, takes the user to the first of several forms
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return <div><button type="button">Checkout</button></div>;
-  }
-}
+  <div><button type="button" onClick={nextPage}>Checkout</button></div>
+)
 
 class F1 extends React.Component {
   // F1 collects name, email, and password for account creation.

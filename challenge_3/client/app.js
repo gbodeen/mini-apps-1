@@ -7,6 +7,14 @@ class App extends React.Component {
     this.state = {
       page: 0
     };
+
+    this.nextPage = this.nextPage.bind(this);
+  }
+
+  nextPage() {
+    this.setState({
+      page: this.state.page + 1
+    });
   }
 
   render() {
@@ -18,30 +26,22 @@ class App extends React.Component {
       case 3:
         return React.createElement(F3, null);
       default:
-        return React.createElement(Home, null);
+        return React.createElement(Home, { nextPage: this.nextPage });
     }
   }
 }
 
-class Home extends React.Component {
-  // a Checkout button, which when clicked, takes the user to the first of several forms
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "button",
-        { type: "button" },
-        "Checkout"
-      )
-    );
-  }
-}
+const Home = ({ nextPage }) =>
+// a Checkout button, which when clicked, takes the user to the first of several forms
+React.createElement(
+  "div",
+  null,
+  React.createElement(
+    "button",
+    { type: "button", onClick: nextPage },
+    "Checkout"
+  )
+);
 
 class F1 extends React.Component {
   // F1 collects name, email, and password for account creation.
