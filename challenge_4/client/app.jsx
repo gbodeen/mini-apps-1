@@ -48,9 +48,22 @@ const DropArea = ({ dropPiece }) => (
 )
 
 const Board = ({ board }) => (
-  <div>This will be where the board displays.</div>
+  <>
+    {board.map(row => {
+      return <Row row={row} key={Math.random()} />
+    })}
+  </>
 )
 
+const Row = ({ row }) => (
+  <div>This will be where the row displays.</div>
+)
+
+const Square = ({ color }) => {
+  return (
+    <div className='square'><div className={color}></div></div>
+  )
+}
 
 const root = document.getElementById('root');
 ReactDOM.render(<App />, root);
