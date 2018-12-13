@@ -45,27 +45,27 @@ const InfoArea = ({ message }) => (
 )
 
 const DropArea = ({ turn, dropPiece }) => (
-  <div className="droparea"><Row color='blank' turn={turn} row={[0, 1, 2, 3, 4, 5, 6]} /></div>
+  <div className="droparea"><Row color='blank' turn={turn} row={[0, 1, 2, 3, 4, 5, 6]} dropPiece={dropPiece} /></div>
 )
 
 const Board = ({ board }) => (
   <div className="board">
     {board.map(row => {
-      return <Row row={row} key={Math.random()} turn='' />
+      return <Row row={row} key={Math.random()} turn='' dropPiece={() => { }} />
     })}
   </div>
 )
 
-const Row = ({ row, turn }) => (
+const Row = ({ row, turn, dropPiece }) => (
   <div className="row">
     {row.map(square => {
-      return <Square color='blank' key={Math.random()} turn={turn} />;
+      return <Square color='blank' key={Math.random()} turn={turn} dropPiece={dropPiece} />;
     })}
   </div>
 )
 
-const Square = ({ color, turn }) => (
-  <div className='square'><div className={color + ' ' + (turn ? 'drop-red' : 'drop-yellow')}></div></div>
+const Square = ({ color, turn, dropPiece }) => (
+  <div className='square'><div className={color + ' ' + (turn ? 'drop-red' : 'drop-yellow')} onClick={dropPiece}></div></div>
 )
 
 const root = document.getElementById('root');
