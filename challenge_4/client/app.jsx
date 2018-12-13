@@ -56,14 +56,16 @@ const Board = ({ board }) => (
 )
 
 const Row = ({ row }) => (
-  <div>This will be where the row displays.</div>
+  <>
+    {row.map(square => {
+      return <Square className="row" color='blank' key={Math.random()} />
+    })}
+  </>
 )
 
-const Square = ({ color }) => {
-  return (
-    <div className='square'><div className={color}></div></div>
-  )
-}
+const Square = ({ color }) => (
+  <div className='square'><div className={color}>Square</div></div>
+)
 
 const root = document.getElementById('root');
 ReactDOM.render(<App />, root);
