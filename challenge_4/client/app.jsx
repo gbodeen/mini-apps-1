@@ -44,15 +44,15 @@ const InfoArea = ({ message }) => (
 )
 
 const DropArea = ({ dropPiece }) => (
-  <div>This will be where you click to drop a piece.</div>
+  <Row row={[0, 1, 2, 3, 4, 5, 6]} />
 )
 
 const Board = ({ board }) => (
-  <>
+  <div className="board">
     {board.map(row => {
       return <Row row={row} key={Math.random()} />
     })}
-  </>
+  </div>
 )
 
 const Row = ({ row }) => (

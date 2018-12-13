@@ -3,6 +3,9 @@
   height: 100px;
   width: 100px;
   margin: 0;
+}
+
+.board .square {
   background-color: blue;
 }
 
