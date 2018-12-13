@@ -56,15 +56,15 @@ const Board = ({ board }) => (
 )
 
 const Row = ({ row }) => (
-  <>
+  <div className="row">
     {row.map(square => {
-      return <Square className="row" color='blank' key={Math.random()} />
+      return <Square color='blank' key={Math.random()} />;
     })}
-  </>
+  </div>
 )
 
 const Square = ({ color }) => (
-  <div className='square'><div className={color}>Square</div></div>
+  <div className='square'><div className={color}></div></div>
 )
 
 const root = document.getElementById('root');

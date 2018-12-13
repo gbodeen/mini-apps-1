@@ -1,0 +1,32 @@
+.square {
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  margin: 0;
+  background-color: blue;
+}
+
+.red, .yellow, .blank, .arrow {
+  height: 80px;
+  width: 80px;
+  margin: 8px;
+  border: 1px dotted black;
+  border-radius: 40px;
+}
+
+.red {
+ background-color: red;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blank {
+  background-color: white;
+}
+
+.row {
+  margin: 0;
+  height: 100px;
+}
