@@ -6,6 +6,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       message: '',
+      p1turn: true,
       board: []
     };
 
@@ -32,7 +33,7 @@ class App extends React.Component {
     return (
       <>
         <InfoArea message={this.state.message} />
-        <DropArea dropPiece={this.dropPiece} />
+        <DropArea turn={this.state.p1turn} dropPiece={this.dropPiece} />
         <Board board={this.state.board} />
       </>
     )
@@ -40,31 +41,31 @@ class App extends React.Component {
 }
 
 const InfoArea = ({ message }) => (
-  <div>This will be the info display area.</div>
+  <div className='message'>This will be the info display area.</div>
 )
 
-const DropArea = ({ dropPiece }) => (
-  <Row row={[0, 1, 2, 3, 4, 5, 6]} />
+const DropArea = ({ turn, dropPiece }) => (
+  <div className="droparea"><Row color='blank' turn={turn} row={[0, 1, 2, 3, 4, 5, 6]} /></div>
 )
 
 const Board = ({ board }) => (
   <div className="board">
     {board.map(row => {
-      return <Row row={row} key={Math.random()} />
+      return <Row row={row} key={Math.random()} turn='' />
     })}
   </div>
 )
 
-const Row = ({ row }) => (
+const Row = ({ row, turn }) => (
   <div className="row">
     {row.map(square => {
-      return <Square color='blank' key={Math.random()} />;
+      return <Square color='blank' key={Math.random()} turn={turn} />;
     })}
   </div>
 )
 
-const Square = ({ color }) => (
-  <div className='square'><div className={color}></div></div>
+const Square = ({ color, turn }) => (
+  <div className='square'><div className={color + ' ' + (turn ? 'drop-red' : 'drop-yellow')}></div></div>
 )
 
 const root = document.getElementById('root');

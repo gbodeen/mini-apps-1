@@ -1,7 +1,7 @@
 .square {
   display: inline-block;
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   margin: 0;
 }
 
@@ -10,26 +10,39 @@
 }
 
 .red, .yellow, .blank, .arrow {
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   margin: 8px;
   border: 1px dotted black;
   border-radius: 40px;
 }
 
-.red {
+.board .red {
  background-color: red;
 }
 
-.yellow {
+.board .yellow {
   background-color: yellow;
 }
 
-.blank {
+.board .blank {
   background-color: white;
+}
+
+.droparea .drop-red:hover {
+  background-color: red;
+}
+
+.droparea .drop-yellow:hover {
+  background-color: yellow;
 }
 
 .row {
   margin: 0;
-  height: 100px;
+  height: 80px;
+}
+
+.message {
+  font: bold 30px Georgia, serif;
+  color: black;
 }
